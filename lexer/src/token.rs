@@ -7,7 +7,7 @@ pub enum TokenType {
     RBracket,
     LBrace,
     RBrace,
-    Int,
+    Number,
     Ident,
     String,
     Kw(Keyword),

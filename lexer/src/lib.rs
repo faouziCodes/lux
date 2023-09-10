@@ -55,6 +55,34 @@ impl Lex for Lexer {
 
         let token_t = match nchar {
             c if c.is_whitespace() || c == '\n' => TokenType::Whitespace,
+            c if c.is_numeric() => {
+                while let Some(c) = self.peak() {
+                    if !c.is_numeric() {
+                        break;
+                    }
+                    self.next();
+                }
+                TokenType::Number
+            }
+            c if c.is_alphabetic() => {
+                while let Some(c) = self.peak() {
+                    if !c.is_alphabetic() {
+                        break;
+                    }
+                    self.next();
+                }
+                TokenType::Ident
+            }
+            '"' => {
+                self.clear_buffer();
+                while let Some(c) = self.next() {
+                    if c == '"' {
+                        self.buffer.pop();
+                        break;
+                    }
+                }
+                TokenType::String
+            }
             '!' if self.peak() == Some(&'=') => {
                 self.next();
                 TokenType::Op(Operators::NEq)
