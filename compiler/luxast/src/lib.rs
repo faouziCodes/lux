@@ -1,2 +1,2 @@
 pub mod span;
-mod ast;
+pub mod ast;
