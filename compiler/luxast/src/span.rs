@@ -1,3 +1,4 @@
+#[derive(Clone, Copy)]
 pub struct Span {
     line: usize,
     start: usize,
@@ -22,5 +23,7 @@ impl Span {
         self.end = pos;
     }
 
-    pub fn set_line(&mut self, pos: usize) { self.line = pos; }
+    pub fn set_line(&mut self, pos: usize) {
+        self.line = pos;
+    }
 }

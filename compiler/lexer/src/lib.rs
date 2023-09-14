@@ -128,7 +128,7 @@ impl Iterator for Lexer {
     fn next(&mut self) -> Option<Self::Item> {
         let current = self.input.get(self.position)?;
         self.position += 1;
-        if current == '\n' {
+        if *current == '\n' {
             self.curr_line += 1;
         }
 
