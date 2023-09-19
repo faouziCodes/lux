@@ -26,6 +26,12 @@ pub enum Keyword {
     Else,
     For,
     While,
+    I32,
+    I16,
+    I8,
+    F32,
+    F16,
+    F8,
 }
 
 #[derive(PartialEq, Debug)]
@@ -56,6 +62,29 @@ impl Token {
             token_t,
             token_v,
             line,
+        }
+    }
+}
+
+impl TryFrom<&str> for Keyword {
+    type Error = &'static str;
+
+    fn try_from(value: &str) -> Result<Self, Self::Error> {
+        match value {
+            "let" => Ok(Self::Let),
+            "CONST" => Ok(Self::Const),
+            "if" => Ok(Self::If),
+            "fn" => Ok(Self::Fn),
+            "else" => Ok(Self::Else),
+            "for" => Ok(Self::For),
+            "while" => Ok(Self::While),
+            "i8" => Ok(Self::I8),
+            "i16" => Ok(Self::I16),
+            "i32" => Ok(Self::I32),
+            "f8" => Ok(Self::F8),
+            "f16" => Ok(Self::F16),
+            "f32" => Ok(Self::F32),
+            _ => Err("Not a keyword"),
         }
     }
 }

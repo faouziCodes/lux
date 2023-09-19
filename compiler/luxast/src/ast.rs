@@ -56,8 +56,14 @@ pub struct Func {
 }
 
 pub struct Type {
-    ty: TypeOf,
-    ptr: bool,
+    ty: Option<TypeOf>,
+    is_ptr: bool,
+}
+
+impl Type {
+    pub fn new(ty: Option<TypeOf>, is_ptr: bool) -> Self {
+        Self { ty, is_ptr }
+    }
 }
 
 pub struct Typedef {

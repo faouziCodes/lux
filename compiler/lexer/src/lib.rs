@@ -2,7 +2,7 @@
 mod tests;
 pub mod token;
 
-use token::{Operators, Token, TokenType};
+use token::{Keyword, Operators, Token, TokenType};
 
 pub struct Lexer {
     position: usize,
@@ -117,6 +117,15 @@ impl Lex for Lexer {
             '-' => TokenType::Op(Operators::Min),
             '*' => TokenType::Op(Operators::Times),
             _ => TokenType::Invalid,
+        };
+
+        let token_t = if token_t == TokenType::Ident {
+            match Keyword::try_from(self.buffer.as_str()) {
+                Ok(kw) => TokenType::Kw(kw),
+                Err(_) => token_t,
+            }
+        } else {
+            token_t
         };
 
         Some(Token::new(token_t, self.clear_buffer(), self.curr_line))

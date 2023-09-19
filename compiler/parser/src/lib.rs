@@ -1,4 +1,5 @@
 mod errors;
+mod parse_type;
 mod parse_var;
 
 use lexer::token::{Token, TokenType};
@@ -67,7 +68,9 @@ trait Parsable {
     /// fn parse defines how to parse the structure, gives the implementation access to
     /// the parser structure allowing it to creates spans and iterate over the tokens
     /// within a span
-    fn parse<'t>(&mut self, parser: &'t mut Parser<'t>);
+    fn parse<'t>(&mut self, parser: &'t mut Parser<'t>) -> Result<Self, ()>
+    where
+        Self: Sized;
 }
 
 pub struct IterSpan<'st> {

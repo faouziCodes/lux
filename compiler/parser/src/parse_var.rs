@@ -1,6 +1,7 @@
 use crate::Parser;
 use crate::Parsable;
 use lexer::token::TokenType;
+use luxast::ast::Type;
 use luxast::ast::Var;
 
 impl Parsable for Var {
@@ -23,6 +24,12 @@ impl Parsable for Var {
         let ident_value = match let_after {
             Some(token) => token.token_v,
             None => panic!("We should generate a correct error message for missing fields/values"),
+        };
+        
+        let def_type: Option<Type> = if parser.next_is(TokenType::Colon) { 
+            todo!("parse defined types")
+        } else {
+           None 
         };
     }
 }
