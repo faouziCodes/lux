@@ -33,9 +33,15 @@ pub enum TypeOf {
 }
 
 pub struct Var {
-    id: Ident,
-    ty: TypeOf,
-    expr: Box<Node>,
+    id: Option<Ident>,
+    ty: Option<TypeOf>,
+    expr: Option<Box<Node>>,
+}
+
+impl Var {
+    pub fn new(id: Option<Ident>, ty: Option<TypeOf>, expr: Option<Box<Node>>) -> Self {
+        Self { id, ty, expr }
+    }
 }
 
 pub struct Stmt {
@@ -92,4 +98,3 @@ impl Ast {
         }
     }
 }
-
