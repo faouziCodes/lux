@@ -5,7 +5,7 @@ use crate::{
 
 #[test]
 fn test_lexer_input() {
-    let inp = "{ ; == >= <= > < != !10\"Hello, World!\"Hello";
+    let inp = "{ ; == >= <= > < != !10\"Hello, World!\"Hello :";
 
     let mut lexer = Lexer::new(inp);
     let tokens = lexer.tokenize();
@@ -22,4 +22,5 @@ fn test_lexer_input() {
     assert!(tokens[9].token_t ==  TokenType::Number && tokens[9].token_v == "10");
     assert!(tokens[10].token_t ==  TokenType::String &&  tokens[10].token_v == "Hello, World!");
     assert!(tokens[11].token_t ==  TokenType::Ident &&  tokens[11].token_v == "Hello");
+    assert!(tokens[12].token_t ==  TokenType::Colon &&  tokens[12].token_v == ":");
 }

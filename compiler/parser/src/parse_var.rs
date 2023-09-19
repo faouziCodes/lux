@@ -1,6 +1,7 @@
+use crate::Parser;
+use crate::Parsable;
 use lexer::token::TokenType;
 use luxast::ast::Var;
-use crate::Parsable;
 
 impl Parsable for Var {
     fn parse<'t>(&mut self, parser: &'t mut crate::Parser<'t>) {
@@ -16,14 +17,12 @@ impl Parsable for Var {
                 let ident = iter.next();
                 ident
             }
-            _ => panic!("I should probably implement this.")
+            _ => panic!("We should generate a correct error message for missing fields/values"),
         };
-         
+
         let ident_value = match let_after {
-           Some(token) =>{
-                token.token_v
-           }
-           None => panic!("I should probably implement this.")
-        }
-    } 
+            Some(token) => token.token_v,
+            None => panic!("We should generate a correct error message for missing fields/values"),
+        };
+    }
 }

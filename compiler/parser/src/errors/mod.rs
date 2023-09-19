@@ -1,9 +1,5 @@
 use luxast::span::Span;
 
-pub struct ErrorMsg {
-    msg: String,
-}
-
 pub enum ParseErrorTypes {
     MissingField,
     UnextpectedToken,
@@ -12,4 +8,5 @@ pub enum ParseErrorTypes {
 pub trait ParseError<T> {
     fn loc(&self) -> Span;
     fn msg(&self);
+    fn error_type(&self) -> ParseErrorTypes;
 }

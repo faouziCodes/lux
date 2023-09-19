@@ -1,5 +1,5 @@
-mod parse_var;
 mod errors;
+mod parse_var;
 
 use lexer::token::{Token, TokenType};
 use luxast::span::Span;
@@ -26,7 +26,7 @@ impl<'t, 'p> Parser<'t> {
         while let Some(token) = self.next() {
             span.set_end(self.pos);
             match token {
-                t if  &t.token_t == delim => return Some(span),
+                t if &t.token_t == delim => return Some(span),
                 _ => continue,
             }
         }
@@ -38,9 +38,20 @@ impl<'t, 'p> Parser<'t> {
         let iter_tokens = &self.tokens[span.start..span.end];
         IterSpan {
             pos: 0,
-            iter: iter_tokens 
+            iter: iter_tokens,
         }
-    } 
+    }
+
+    fn peak(&self) -> Option<&Token> {
+        self.tokens.get(self.pos)
+    }
+
+    fn next_is(&mut self, token_t: TokenType) -> bool {
+        match self.peak() {
+            Some(token) if token.token_t == token_t => true,
+            _ => false,
+        }
+    }
 }
 
 impl<'t, 'p> Iterator for Parser<'t> {
@@ -52,9 +63,8 @@ impl<'t, 'p> Iterator for Parser<'t> {
     }
 }
 
-
 trait Parsable {
-    /// fn parse defines how to parse the structure, gives the implementation access to 
+    /// fn parse defines how to parse the structure, gives the implementation access to
     /// the parser structure allowing it to creates spans and iterate over the tokens
     /// within a span
     fn parse<'t>(&mut self, parser: &'t mut Parser<'t>);
@@ -62,13 +72,13 @@ trait Parsable {
 
 pub struct IterSpan<'st> {
     pos: usize,
-    iter: &'st [Token]
+    iter: &'st [Token],
 }
 
 impl<'st> Iterator for IterSpan<'st> {
     type Item = &'st Token;
 
-    fn next(&mut self) -> Option<Self::Item> { 
+    fn next(&mut self) -> Option<Self::Item> {
         let token = self.iter.get(self.pos)?;
         self.pos += 1;
         Some(token)
